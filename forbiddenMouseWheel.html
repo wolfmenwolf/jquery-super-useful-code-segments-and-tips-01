@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="../jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript">
+        window.onload = function () {
+            for (i = 0; i < 50; i++) {//循环50次
+                var x = document.createElement('div');//新建div元素
+                x.innerHTML = "jQuery<br/>";//向新建的div对象中插入元素
+                document.body.appendChild(x);//将创建的div插入body中
+            }
+
+        function $(x) { //方法函数，根据id得到对象
+            return document.getElementById(x);
+        }
+
+            /**
+             * 定义和用法
+             onwheel 事件在鼠标滚轮在元素上下滚动时触发。
+             onwheel 事件同样可以在触摸板上滚动或放大缩小区域时触发（如笔记本上的触摸板）。
+             * @param e
+             */
+        $("wrap").onmousewheel = function scrollWheel(e) {
+            var s1;//定义变量
+            e = e || window.event;//如果有滚轮事件用滚轮事件，否则用window事件
+            //navigator.userAgent 属性是一个只读的字符串，声明了浏览器用于 HTTP 请求的用户代理头的值。
+            if (navigator.userAgent.toLowerCase().indexOf('msie') >= 0){//如果是ie浏览器
+                event.returnValue = false;//事件禁止
+            }else {//如果是非ie浏览器
+                e.preventDefault();//阻止默认事件
+            };
+            //滚轮的点击行为被定义为WHEEL_DELTA,它的值是120
+            if (e.wheelDelta){//如果事件中含有wheelDelta
+                s1 = e.wheelDelta;//为局部变量赋值
+            }else if(e.detail){//如果含有detail
+                s1 = -e.detail;//detail取反，赋值
+            }
+
+            if(s1 < 0){
+                var x = parseInt($("he").innerHTML);//将h1标签内部的数值文本转化为整型数据
+                x++;//小于0时++
+                $("he").innerHTML = x;
+            }else {
+                var x = parseInt($("he").innerHTML);
+                x--;//大于0时--
+                $("he").innerHTML = x;
+            };
+        };
+        /**
+         * element.addEventListener(event, function, useCapture)
+         * 参数值
+         * 参数	描述
+         * event	必须。字符串，指定事件名。
+         * 注意: 不要使用 "on" 前缀。 例如，使用 "click" ,而不是使用 "onclick"。
+         * 提示： 所有 HTML DOM 事件，可以查看我们完整的 HTML DOM Event 对象参考手册。
+         * function	必须。指定要事件触发时执行的函数。
+         * 当事件对象会作为第一个参数传入函数。 事件对象的类型取决于特定的事件。
+         * 例如， "click" 事件属于 MouseEvent(鼠标事件) 对象。
+         * useCapture	可选。布尔值，指定事件是否在捕获或冒泡阶段执行。
+         * 可能值:
+         * true - 事件句柄在捕获阶段执行
+         * false- false- 默认。事件句柄在冒泡阶段执行
+         * 技术细节
+         * DOM 版本:	DOM Level 2 Events
+         * 返回值:	没有返回值
+         * 记录:	在 Firefox 6 和 Opera 11.60 中 useCapture 参数是可选的。
+         * （在 Chrome、IE 和 Safari 中一直都是可选的）。
+         * */
+        if (navigator.userAgent.toLowerCase().indexOf("firefox") > 0){//如果是火狐
+            //则为浏览器添加事件监听
+            addEventListener("DOMMouseScroll",
+            function (e) {
+                /**
+                 * e.currentTarget指的是注册了事件监听器的对象，
+                 * 而e.target指的是该对象里的子对象，也是触发这个事件的对象！
+                 */
+              var obj = e.target;
+              var onmousewheel;
+              while (obj){//如果触发对象存在，则一直循环
+                  onmousewheel = obj.getAttribute("onmousewheel")|| obj.onmousewheel;//穿透式赋值，取滚屏属性
+                  if(onmousewheel) break;//如果存在滚屏属性，则退出循环
+                  if(obj.tagName == 'BODY') break;//如果触发事件的是body元素，也退出循环
+                  obj = obj.parentNode;//触发滚屏事件的对象更改为当前对象的父对象
+              };
+
+              if(onmousewheel){//非火狐和IE时的滚屏事件
+                if (e.preventDefault) e.preventDefault();//阻止默认行为
+                e.returnValue = false;//事件反悔值为false
+                if(typeof obj.onmousewheel != 'function'){
+                    //将onmousewheel转化为function
+                    eval('window._tmpFun = function(event){'+onmousewheel +'}');
+                    //执行转化后的函数
+                    obj.onmousewheel = window._tmpFun;
+                    window._tmpFun = null;//释放临时对象的资源
+                };
+                // 不直接执行是因为若onmousewheel(e)运行时间较长的话，会导致锁定滚动失效，使用setTimeout可避免
+                  setTimeout(function () {
+                      obj.onmousewheel(e);
+                  },1);
+              };
+            },false);
+        };
+
+        }
+    </script>
+</head>
+<body>
+<h2>超实用的jQuery代码段 - jQuery实现强制禁止页面滚动的方法</h2>
+<p>
+<div id="wrap" style="position:absolute;left:100px;top:100px;background:#eee;width:300px;height:300px;">
+    <h1 id="he" style="text-align:center;width:100%;color:#f00;">0</h1>
+    鼠标移动这里，禁止转动滚轮！<br>鼠标移出这里，开启转动滚轮！<br>
+</div>
+</p>
+</body>
+</html>
