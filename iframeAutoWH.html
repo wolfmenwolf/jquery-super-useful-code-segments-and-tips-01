@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="../jquery/jquery-1.9.1.min.js"></script>
+    <script src="../jquery/js/jquery-ui-1.10.3.custom.js"></script>
+    <link href="../jquery/css/cupertino/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../jquery/themes/base/jquery.ui.all.css">
+    <script src="../jquery/ui/jquery.ui.core.js"></script>
+    <script src="../jquery/ui/jquery.ui.widget.js"></script>
+    <script src="../jquery/ui/jquery.ui.position.js"></script>
+    <script src="../jquery/ui/jquery.ui.menu.js"></script>
+    <script src="../jquery/ui/jquery.ui.autocomplete.js"></script>
+    <link rel="stylesheet" href="css/demos.css">
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#iframe-content").load(function () {
+                /**
+                 * contents()函数用于选取当前匹配元素的所有子节点(包括文本节点、注释节点等)，并以jQuery对象的形式返回。
+                 * contents()函数的返回值为jQuery类型，返回一个新的jQuery对象，该对象包含了当前jQuery对象匹配元素的所有子节点(包括元素、文本、注释等所有类型的节点)。
+
+                 只要两个HTML标记之间存在任何空白字符(空格、换行符等)，就会被视作文本节点。
+
+                 如果元素是一个<iframe>，则选取该文档的所有文档节点。
+
+                 如果没有匹配的元素，则返回空的jQuery对象。
+                 */
+                var vHeight = $(this).contents().find("body").height() + 32;
+                $(this).height(vHeight<300?300:vHeight);
+            })
+        });
+    </script>
+    <style>
+        body {
+            font:62.5% "Trebuchet MS", sans-serif;
+            margin:64px;
+        }
+        #h2-caption {
+            font:20px "Trebuchet MS", sans-serif;
+        }
+        p {
+            font:16px "Trebuchet MS", sans-serif;
+        }
+        label {
+            font:12px "Trebuchet MS", sans-serif;
+        }
+        .demoHeaders {
+            margin-top:2em;
+        }
+        #div-log {
+            font:13.5px "Trebuchet MS", sans-serif;
+        }
+    </style>
+</head>
+<body>
+<h2 id="h2-caption">超实用的jQuery代码段 - jQuery实现iframe自适应高度</h2>
+<hr><br>
+<div>
+    <iframe id="iframe-content" src="openurl.html" frameborder="3" scrolling="no" style="margin-left:2px;margin-top:-3px;width:600px;height:350px;float:right;"></iframe>
+</div>
+</body>
+</html>
