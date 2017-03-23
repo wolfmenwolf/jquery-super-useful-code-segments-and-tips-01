@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="../jquery/jquery-1.9.1.min.js"></script>
+    <script src="../jquery/js/jquery-ui-1.10.3.custom.js"></script>
+    <link href="../jquery/css/cupertino/jquery-ui-1.10.3.custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="../jquery/themes/base/jquery.ui.all.css">
+    <script src="../jquery/ui/jquery.ui.core.js"></script>
+    <script src="../jquery/ui/jquery.ui.widget.js"></script>
+    <script src="../jquery/ui/jquery.ui.position.js"></script>
+    <script src="../jquery/ui/jquery.ui.menu.js"></script>
+    <script src="../jquery/ui/jquery.ui.autocomplete.js"></script>
+    <link rel="stylesheet" href="css/demos.css">
+    <script type="text/javascript">
+        $(document).ready(function(){
+            /**
+             * @param scrolldom -:触发方法的对象
+             * @param scrolltime -：动画执行时间
+             */
+            jQuery.scrollTo = function(scrolldom,scrolltime){
+                $(scrolldom).click(function(){
+                    //首先拿到a链接上的page-scroll属性
+                    var scrollDom = $(this).attr("page-scroll");
+                    /**
+                     * 当前对象添加thisscroll class类，其余兄弟对象移除thisscroll class类
+                     */
+                    $(this).addClass("thisscroll").siblings().removeClass("thisscroll");
+                    /**
+                     * 滚动条滚动到当前元素的向上偏移量，动画执行时间为传入的动画时间
+                     */
+                    $('html,body').animate(
+                            {
+                                scrollTop:$(scrollDom).offset().top
+                            },
+                            scrolltime
+                    );
+                    /**
+                     * ”return false“到底做了什么？
+                     当你每次调用”return false“的时候，它实际上做了3件事情：
+                     •event.preventDefault();
+                     •event.stopPropagation();
+                     •停止回调函数执行并立即返回。
+                     “等等”，你叫了起来！我只是想让浏览器停止继续执行默认行为而已，我不需要它去做另外2件事。
+                     这3件事中用来阻止浏览器继续执行默认行为的只有preventDefault，除非你想要停止事件冒泡，否则使用return false会为你的代码埋下很大的隐患
+                     */
+                    return false;
+
+                });
+            };
+            $.scrollTo("#scrollnav a",1000);
+        });
+    </script>
+    <style type="text/css">
+        body{
+            font: 62.5% "Trebuchet MS",sans-serif;
+            margin: 64px;
+        }
+
+        #h2-caption{
+            font: 20px "Trebuchet MS",sans-serif;
+        }
+
+        p{
+           font: 16px "Trebuchet MS",sans-serif;
+        }
+
+        a{
+            font:13.5px "Trebuchet MS",sans-serif;
+        }
+
+        .demoHeaders{
+            margin: 2em;
+        }
+
+        #div-log{
+            font: 13.5px "Trebuchet MS",sans-serif;
+        }
+    </style>
+</head>
+<body>
+<h2 id="h2-caption">超实用的jQuery代码段 - jQuery平滑滚动页面到某个锚点</h2>
+<hr><br>
+<div class="scrollnav" id="scrollnav">
+    <a href="#" page-scroll="#scrolltoTop">滑动到页面顶部</a>&nbsp;&nbsp;
+    <a href="#" page-scroll="#scrolltoMid">滑动到页面中部</a>&nbsp;&nbsp;
+    <a href="#" page-scroll="#scrolltoEnd">滑动到页面底部</a>&nbsp;&nbsp;
+</div>
+<p id="scrolltoTop">jQuery平滑滚动页面 - 页面顶部</p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<p id="scrolltoMid">jQuery平滑滚动页面 - 页面中部</p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<p id="scrolltoEnd">jQuery平滑滚动页面 - 页面底部</p><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><hr>
+<div id="div-log">
+    <p>日志记录：</p>
+</div>
+</body>
+</html>
